@@ -47,6 +47,7 @@ const Slider = () => {
                             type="radio"
                             name="radio-button"
                             checked={index === idx}
+                            readOnly
                         />
                     ))}
                 </div>
