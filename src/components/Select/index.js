@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import "./style.scss";
@@ -12,9 +12,14 @@ const Select = ({
     titleEmpty,
     label,
     type = "normal",
+    resetKey,
 }) => {
     const [value, setValue] = useState();
     const [collapsed, setCollapsed] = useState(true);
+
+    useEffect(() => {
+        setValue(undefined);
+    }, [resetKey]);
 
     const changeValue = (newValue) => {
         setValue(newValue);
@@ -25,7 +30,7 @@ const Select = ({
         if (newValue === "conférence") return "Conférences";
         if (newValue === "expérience digitale") return "Expériences digitales";
         if (newValue === "soirée d'entreprise") return "Soirées d'entreprise";
-        return "Toutes";
+        return newValue;
     };
 
     return (
@@ -34,7 +39,7 @@ const Select = ({
             <div className="Select">
                 <ul>
                     <li className={collapsed ? "SelectTitle--show" : "SelectTitle--hide"}>
-                        {!titleEmpty && styledValue(value)}
+                        {styledValue(value) || (!titleEmpty && "Toutes")}
                     </li>
                     {!collapsed && (
                         <>
@@ -93,6 +98,7 @@ Select.propTypes = {
     titleEmpty: PropTypes.bool,
     label: PropTypes.string,
     type: PropTypes.string,
+    resetKey: PropTypes.number,
 }
 
 Select.defaultProps = {
@@ -101,6 +107,7 @@ Select.defaultProps = {
     label: "",
     type: "normal",
     name: "select",
+    resetKey: 0,
 }
 
 export default Select;
