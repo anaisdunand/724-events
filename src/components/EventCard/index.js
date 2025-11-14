@@ -4,42 +4,42 @@ import { getMonth } from "../../helpers/Date";
 import "./style.scss";
 
 const EventCard = ({
-  imageSrc,
-  imageAlt,
-  date = new Date(),
-  title,
-  label,
-  small = false,
-  ...props
-}) => (
-    <div
-      data-testid="card-testid"
-      className={`EventCard${small ? " EventCard--small" : ""}`}
-      {...props}
-    >
-      <div className="EventCard__imageContainer">
-        <img data-testid="card-image-testid" src={imageSrc} alt={imageAlt} />
-        <div className="EventCard__label">{label}</div>
-      </div>
-      <div className="EventCard__descriptionContainer">
-        <div className="EventCard__title">{title}</div>
-        <div className="EventCard__month">{getMonth(date)}</div>
-      </div>
-    </div>
+    src,
+    alt,
+    label,
+    title,
+    date = new Date(),
+    small = false,
+    ...props
+    }) => (
+        <div
+            className={`EventCard${small ? " EventCard--small" : ""}`}
+            data-testid="event-card"
+            {...props}
+        >
+            <div className="EventCard__imageContainer">
+                <img src={src} alt={alt} />
+                <div className="EventCard__label">{label}</div>
+            </div>
+            <div className="EventCard__descriptionContainer">
+                <div className="EventCard__title">{title}</div>
+                <div className="EventCard__month">{getMonth(date)}</div>
+            </div>
+        </div>
   );
 
 EventCard.propTypes = {
-  imageSrc: PropTypes.string.isRequired,
-  imageAlt: PropTypes.string,
-  date: PropTypes.instanceOf(Date).isRequired,
-  title: PropTypes.string.isRequired,
-  small: PropTypes.bool,
-  label: PropTypes.string.isRequired,
+    src: PropTypes.string.isRequired,
+    alt: PropTypes.string,
+    label: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    date: PropTypes.instanceOf(Date).isRequired,
+    small: PropTypes.bool,
 };
 
 EventCard.defaultProps = {
-  imageAlt: "image",
-  small: false,
-}
+    alt: "Image",
+    small: false,
+};
 
 export default EventCard;

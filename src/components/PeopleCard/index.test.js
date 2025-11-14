@@ -1,29 +1,26 @@
 import { render, screen } from "@testing-library/react";
 import PeopleCard from "./index";
 
-describe("When a people card is created", () => {
-  it("an image is display with alt value", () => {
-    render(
-      <PeopleCard imageSrc="http://src-image" imageAlt="image-alt-text" 
-      name="test name"
-      position="test position" />
-    );
-    const imageElement = screen.getByTestId("card-image-testid");
-    expect(imageElement).toBeInTheDocument();
-    expect(imageElement.alt).toEqual("image-alt-text");
-  });
-  it("a title and a month are displayed", () => {
-    render(
-      <PeopleCard
-        imageSrc="http://src-image"
-        imageAlt="image-alt-text"
-        name="test name"
-        position="test position"
-      />
-    );
-    const nameElement = screen.getByText(/test name/);
-    const titleElement = screen.getByText(/test position/);
-    expect(nameElement).toBeInTheDocument();
-    expect(titleElement).toBeInTheDocument();
-  });
-});
+describe("PeopleCard component", () => {
+    beforeEach(() => {
+        render(
+            <PeopleCard
+                src="/mon-image.png"
+                alt="Mon image"
+                name="Mon nom"
+                position="Mon travail"
+            />
+        )
+    })
+    
+    it("should display an image with an alt value", () => {
+        const image = screen.getByAltText("Mon image")
+        expect(image).toHaveAttribute("src", "/mon-image.png")
+    })
+    
+    it("should display a name and a position", () => {
+        const card = screen.getByTestId("people-card")
+        expect(card).toHaveTextContent(/Mon nom/)
+        expect(card).toHaveTextContent(/Mon travail/)
+    })
+})

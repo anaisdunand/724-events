@@ -3,67 +3,54 @@ import PropTypes from "prop-types";
 import "./style.scss";
 
 export const BUTTON_TYPES = {
-  DEFAULT: 1,
-  SUBMIT: 2,
+    DEFAULT: 1,
+    SUBMIT: 2,
 };
 
-const Button = ({ title, onClick, type, disabled, children }) => {
-  switch (type) {
-    case BUTTON_TYPES.DEFAULT:
-      return (
-        <button
-          type="button"
-          disabled={disabled}
-          className="Button"
-          data-testid="button-test-id"
-          onClick={onClick}
-          title={title}
-        >
-          {children}
-        </button>
-      );
-    case BUTTON_TYPES.SUBMIT:
-      return (
-        <input
-          disabled={disabled}
-          className="Button"
-          type="submit"
-          data-testid="button-test-id"
-          value={children}
-          onClick={onClick}
-          title={title}
-        />
-      );
-    default:
-      return (
-        <button
-          type="button"
-          disabled={disabled}
-          className="Button"
-          data-testid="button-test-id"
-          onClick={onClick}
-          title={title}
-        >
-          {children}
-        </button>
-      );
-  }
+const Button = ({ type, title, disabled, children, onClick }) => {
+    switch (type) {
+        case BUTTON_TYPES.SUBMIT:
+        return (
+            <input
+                className="Button"
+                data-testid="button"
+                type="submit"
+                title={title}
+                value={children}
+                disabled={disabled}
+                onClick={onClick}
+            />
+        );
+        default:
+        return (
+            <button
+                className="Button"
+                data-testid="button"
+                type="button"
+                title={title}
+                disabled={disabled}
+                onClick={onClick}
+            >
+                {children}
+            </button>
+        );
+    };
 };
 
 // eslint-disable-next-line react/no-typos
 Button.propTypes = {
-  title: PropTypes.string,
-  onClick: PropTypes.func,
-  type: PropTypes.number,
-  disabled: PropTypes.bool,
-  children: PropTypes.node,
+    type: PropTypes.oneOf(Object.values(BUTTON_TYPES)),
+    title: PropTypes.string,
+    disabled: PropTypes.bool,
+    onClick: PropTypes.func,
+    children: PropTypes.node,
 };
 Button.defaultProps = {
-  disabled: false,
-  onClick: () => null,
-  type: BUTTON_TYPES.DEFAULT,
-  title: "",
-  children: null
-}
+    type: BUTTON_TYPES.DEFAULT,
+    title: "",
+    disabled: false,
+    onClick: () => null,
+    children: null,
+};
 
 export default Button;

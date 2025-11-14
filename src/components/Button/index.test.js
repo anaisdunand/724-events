@@ -1,37 +1,36 @@
-import { fireEvent, render, screen } from "@testing-library/react";
-import Button, { BUTTON_TYPES } from "./index";
+import { render, screen, fireEvent } from "@testing-library/react"
+import Button, { BUTTON_TYPES } from "./index"
 
-describe("When a button is created", () => {
-  it("the button must include a title", () => {
-    render(<Button title="my-button" type={BUTTON_TYPES.DEFAULT} />);
-    const buttonElement = screen.getByTitle("my-button");
-    expect(buttonElement).toBeInTheDocument();
-  });
-  it("the button must display a label", () => {
-    render(<Button>label</Button>);
-    const buttonElement = screen.getByText(/label/);
-    expect(buttonElement).toBeInTheDocument();
-  });
-  describe("and it's clicked", () => {
-    it("an event onClick it executed", () => {
-      const onClick = jest.fn();
-      render(<Button onClick={onClick} />);
-      const buttonElement = screen.getByTestId("button-test-id");
-      fireEvent(
-        buttonElement,
-        new MouseEvent("click", {
-          bubbles: true,
-          cancelable: true,
+describe("Button component", () => {
+    it("should include a title and a label", () => {
+        render(<Button title="Cliquez ici !">Mon bouton</Button>)
+        const button = screen.getByTestId("button")
+        expect(button).toHaveAttribute("title", "Cliquez ici !")
+        expect(button).toHaveTextContent("Mon bouton")
+    })
+
+    describe("when its type is set to BUTTON_TYPES.SUBMIT", () => {
+        it("should render an input type submit", () => {
+            render(<Button type={BUTTON_TYPES.SUBMIT}>Mon bouton</Button>)
+            const button = screen.getByTestId("button")
+            expect(button.tagName).toBe("INPUT")
+            expect(button).toHaveAttribute("type", "submit")
         })
-      );
-      expect(onClick.mock.calls.length).toBeGreaterThan(0);
-    });
-  });
-  describe("and selected type is submit", () => {
-    it("an input submit is created", () => {
-      render(<Button type={BUTTON_TYPES.SUBMIT}>label</Button>);
-      const buttonElement = screen.getByTestId("button-test-id");
-      expect(buttonElement.type).toEqual("submit");
-    });
-  });
-});
+    })
+
+    describe("when is clicked", () => {
+        it("should execute the onClick event handler", () => {
+            const onClick = jest.fn()
+            render(<Button onClick={onClick} />)
+            const button = screen.getByTestId("button")
+            fireEvent(
+                button,
+                new MouseEvent("click", {
+                    bubbles: true,
+                    cancelable: true
+                })
+            )
+            expect(onClick).toHaveBeenCalled()
+        })
+    })
+})

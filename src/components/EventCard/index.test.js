@@ -1,48 +1,36 @@
-import { render, screen } from "@testing-library/react";
-import EventCard from "./index";
+import { render, screen } from "@testing-library/react"
+import EventCard from "./index"
 
-describe("When a event card is created", () => {
-  it("an image is display with alt value", () => {
-    render(<EventCard imageSrc="http://src-image" imageAlt="image-alt-text" date={new Date("2022-04-01")} 
-    title="test event"
-    
-    label="test label"
-    />);
-    const imageElement = screen.getByTestId("card-image-testid");
-    expect(imageElement).toBeInTheDocument();
-    expect(imageElement.alt).toEqual("image-alt-text");
-  });
-  it("a title, a label and a month are displayed", () => {
-    render(
-      <EventCard
-        imageSrc="http://src-image"
-        imageAlt="image-alt-text"
-        title="test event"
-        label="test label"
-        date={new Date("2022-04-01")}
-      />
-    );
-    const titleElement = screen.getByText(/test event/);
-    const monthElement = screen.getByText(/avril/);
-    const labelElement = screen.getByText(/test label/);
-    expect(titleElement).toBeInTheDocument();
-    expect(labelElement).toBeInTheDocument();
-    expect(monthElement).toBeInTheDocument();
-  });
-  describe("with small props", () => {
-    it("a modifier small is added", () => {
-      render(
-        <EventCard
-          imageSrc="http://src-image"
-          imageAlt="image-alt-text"
-          title="test event"
-          label="test label"
-          date={new Date("2022-04-01")}
-          small
-        />
-      );
-      const cardElement = screen.getByTestId("card-testid");
-      expect(cardElement.className.includes("EventCard--small")).toEqual(true);
-    });
-  });
-});
+describe("EventCard component", () => {
+    beforeEach(() => {
+        render(
+            <EventCard
+                src="/mon-image.png"
+                alt="Mon image"
+                label="Mon label"
+                title="Mon titre"
+                date={new Date("2022-04-01")}
+                small
+            />
+        )
+    })
+
+    it("should display an image with an alt value", () => {
+        const image = screen.getByAltText("Mon image")
+        expect(image).toHaveAttribute("src", "/mon-image.png")
+    })
+
+    it("should display a label, a title and a formatted date", () => {
+		const card = screen.getByTestId("event-card")
+		expect(card).toHaveTextContent(/Mon label/)
+		expect(card).toHaveTextContent(/Mon titre/)
+		expect(card).toHaveTextContent(/avril/)
+	})
+
+    describe("when has the 'small' prop", () => {
+        it("should add the modifier 'small' to the class name", () => {
+            const card = screen.getByTestId("event-card")
+            expect(card.className.includes("EventCard--small")).toBe(true)
+        })
+    })
+})
