@@ -34,7 +34,7 @@ const Select = ({
     };
 
     return (
-        <div className={`SelectContainer ${type}`} data-testid="select-testid">
+        <div className={`SelectContainer ${type}`} data-testid="select">
             {label && <div className="label">{label}</div>}
             <div className="Select">
                 <ul>
@@ -65,7 +65,7 @@ const Select = ({
                 <input type="hidden" value={value || ""} name={name} />
                 <button
                     type="button"
-                    data-testid="collapse-button-testid"
+                    data-testid="collapse-button"
                     className={collapsed ? "open" : "close"}
                     onClick={(e) => {
                         e.preventDefault();
