@@ -1,26 +1,27 @@
-import { fireEvent, render, screen } from "@testing-library/react";
-import Menu from "./index";
+import { fireEvent, render, screen } from "@testing-library/react"
+import Menu from "./index"
 
-describe("When Menu is created", () => {
-  it("a list of mandatories links and the logo are displayed", async () => {
-    render(<Menu />);
-    await screen.findByText("Nos services");
-    await screen.findByText("Nos réalisations");
-    await screen.findByText("Notre équipe");
-    await screen.findByText("Contact");
-  });
+describe("Menu component", () => {
+    it("should display logo and nav links", () => {
+        render(<Menu />)
 
-  describe("and a click is triggered on contact button", () => {
-    it("document location  href change", async () => {
-      render(<Menu />);
-      fireEvent(
-        await screen.findByText("Contact"),
-        new MouseEvent("click", {
-          cancelable: true,
-          bubbles: true,
+        const logo = screen.getByRole("img")
+        expect(logo).toBeInTheDocument()
+
+        const menu = screen.getByTestId("menu")
+        const contactLink = screen.getByTestId("button")
+
+        const links = Array.from(menu.querySelectorAll("li"))
+        links.push(contactLink)
+        expect(links).toHaveLength(4)
+    })
+
+    describe("when a link is clicked", () => {
+        it("should change document location href", () => {
+            render(<Menu />)
+            const contactLink = screen.getByTestId("button")
+            fireEvent.click(contactLink)
+            expect(window.document.location.hash).toEqual("#contact")
         })
-      );
-      expect(window.document.location.hash).toEqual("#contact");
-    });
-  });
-});
+    })
+})

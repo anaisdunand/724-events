@@ -34,27 +34,31 @@ const Form = ({ onSuccess, onError }) => {
         <form onSubmit={sendContact}>
             <div className="row">
                 <div className="col">
-                <Field name="nom" label="Nom" />
-                <Field name="prénom" label="Prénom" />
-                <Select
-                    selection={["Personnel", "Entreprise"]}
-                    onChange={() => null}
-                    label="Personnel / Entreprise"
-                    type="large"
-                    titleEmpty
-                    resetKey={resetKey}
-                />
-                <Field name="email" label="Email" />
-                <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
-                    {sending ? "En cours..." : "Envoyer"}
-                </Button>
+                    <Field name="nom" label="Nom" />
+                    <Field name="prénom" label="Prénom" />
+                    <Select
+                        selection={["Personnel", "Entreprise"]}
+                        onChange={() => null}
+                        label="Personnel / Entreprise"
+                        type="large"
+                        titleEmpty
+                        resetKey={resetKey}
+                    />
+                    <Field name="email" label="Email" />
+                    <Button
+                        type={BUTTON_TYPES.SUBMIT}
+                        title="Envoyez vos réponses"
+                        disabled={sending}
+                    >
+                        {sending ? "En cours..." : "Envoyer"}
+                    </Button>
                 </div>
                 <div className="col">
-                <Field
-                    placeholder="Entrez votre message..."
-                    label="Message"
-                    type={FIELD_TYPES.TEXTAREA}
-                />
+                    <Field
+                        placeholder="Entrez votre message..."
+                        label="Message"
+                        type={FIELD_TYPES.TEXTAREA}
+                    />
                 </div>
             </div>
         </form>

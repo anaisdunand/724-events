@@ -1,29 +1,33 @@
-import { fireEvent, render, screen } from "@testing-library/react";
-import Form from "./index";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react"
+import Form from "./index"
 
-describe("When Events is created", () => {
-  it("a list of event card is displayed", async () => {
-    render(<Form />);
-    await screen.findByText("Email");
-    await screen.findByText("Nom");
-    await screen.findByText("Prénom");
-    await screen.findByText("Personel / Entreprise");
-  });
+describe("Form component", () => {
+	it("should display form fields and submit button", () => {
+		render(<Form />)
 
-  describe("and a click is triggered on the submit button", () => {
-    it("the success action is called", async () => {
-      const onSuccess = jest.fn();
-      render(<Form onSuccess={onSuccess} />);
-      fireEvent(
-        await screen.findByTestId("button-test-id"),
-        new MouseEvent("click", {
-          cancelable: true,
-          bubbles: true,
-        })
-      );
-      await screen.findByText("En cours");
-      await screen.findByText("Envoyer");
-      expect(onSuccess).toHaveBeenCalled();
-    });
-  });
-});
+		const fields = screen.getAllByTestId("field")
+		expect(fields).toHaveLength(4)
+
+		const select = screen.getByText("Personnel / Entreprise")
+		expect(select).toBeInTheDocument()
+
+		const button = screen.getByTestId("button")
+		expect(button).toBeInTheDocument()
+	})
+
+	describe("when submit button is clicked", () => {
+		it("should execute the onSuccess event handler", async () => {
+			const onSuccess = jest.fn()
+			render(<Form onSuccess={onSuccess} />)
+
+			const button = screen.getByTestId("button")
+			fireEvent.click(button)
+			expect(button).toHaveAttribute("value", "En cours...")
+
+			await waitFor(() => {
+				expect(onSuccess).toHaveBeenCalled()
+				expect(button).toHaveAttribute("value", "Envoyer")
+			})
+		})
+	})
+})
