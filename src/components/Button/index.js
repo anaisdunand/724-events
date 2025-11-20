@@ -13,7 +13,7 @@ const Button = ({ type, title, disabled, children, onClick }) => {
         return (
             <input
                 className="Button"
-                data-testid="button"
+                data-testid="submit-button"
                 type="submit"
                 title={title}
                 value={children}

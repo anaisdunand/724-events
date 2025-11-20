@@ -28,7 +28,7 @@ const data = {
 }
 
 describe("Slider component", () => {
-	beforeEach(async () => {
+	beforeEach( () => {
 		jest.clearAllMocks()
 		api.loadData = jest.fn().mockResolvedValue(data)
 

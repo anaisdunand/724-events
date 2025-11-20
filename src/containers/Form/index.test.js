@@ -11,7 +11,7 @@ describe("Form component", () => {
 		const select = screen.getByText("Personnel / Entreprise")
 		expect(select).toBeInTheDocument()
 
-		const button = screen.getByTestId("button")
+		const button = screen.getByTestId("submit-button")
 		expect(button).toBeInTheDocument()
 	})
 
@@ -20,7 +20,7 @@ describe("Form component", () => {
 			const onSuccess = jest.fn()
 			render(<Form onSuccess={onSuccess} />)
 
-			const button = screen.getByTestId("button")
+			const button = screen.getByTestId("submit-button")
 			fireEvent.click(button)
 			expect(button).toHaveAttribute("value", "En cours...")
 

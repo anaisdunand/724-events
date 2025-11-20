@@ -5,6 +5,7 @@ import "./style.scss";
 const Logo = ({ size }) => (
     <div className="Logo">
         <svg
+            role="img"
             width={size === "large" ? "160" : "130"}
             height={size === "large" ? "60" : "60"}
             viewBox="0 0 130 50"
